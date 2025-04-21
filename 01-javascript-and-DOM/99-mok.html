@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p class="text">Lorem ipsum dolor sit amet.</p>
+  <div id="container">
+    <p class="text">Hello world!</p>
+    <ul>
+      <li class="list-content">content1</li>
+      <li class="list-content">content2</li>
+      <li class="list-content">content3</li>
+      <li class="list-content">content4</li>
+    </ul>
+    <a href="#">hyper link</a>
+  </div>
+  <script>
+    // script tag 는 body 의 가장 끝에 위치함.
+    // Javascript 에서 HTML 요소를 조작할 수 있음. DOM 을 활용.
+    // css 선택자를 활용해서 요소를 선택할 수 있음!
+    // 범위가 넓은 것부터...
+    // 1. tag 선택자: tag 이름으로 선택. ex) h1, p, div
+    // 2. class 선택자: tag 중 class 를 가지는 tag 를 선택. .[classname] 으로 선택. ex) .text
+    // 3. id 선택자: tag 중 id 를 가지는 tag 를 선택. #[idname] 으로 선택. ex) #container
+
+    // 선택자를 찾고 싶을 때: 개발자도구 - element 마우스로 찾기 - 하이라이트된 문장 우클릭 - Copy - Copy Selector
+
+    // 요소 하나 선택하기
+    const a = document.querySelector('#container p') // container 의 모든 자손 p
+    const b = document.querySelector('#container > p') // container 의 직계 자식 p
+    const c = document.querySelector('#container > .text') // container 의 직계 자식 중 class 가 text 인 tag.
+
+    console.log(a)
+    console.log(b)
+    console.log(c)
+
+    // 요소 여러 개 선택하기
+    const liTags = document.querySelectorAll('.list-content')
+    console.log(liTags)
+
+  </script>
+</body>
+</html>
