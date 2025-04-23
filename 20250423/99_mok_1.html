@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button class="btn">누르시오</button>
+  <button class="btn">누르시오오</button>
+  <button class="btn">누르시오오오</button>
+  <button class="btn">누르시오오오오</button>
+  <button class="btn">누르시오오오오오</button>
+
+  <script>
+    // 왜 const 와 let 을 쓰느냐?
+    
+    // alert('안녕하세요')
+    const btns = document.querySelectorAll('.btn')
+
+    for (let i = 0 ; i < btns.length ; i++) {
+      // 버튼이 눌리면 동작해라 (이벤트 처리)
+      // click 이벤트가 발생하면 두 번째 인자인 함수가 실행됨.
+      btns[i].addEventListener('click', function () {
+        alert(`${i + 1}번째 버튼을 왜 눌렀나요...?`)
+      })
+    }
+    
+    // var 은 전역 변수로써 선언된다.
+    // 즉, let 대신 var 을 쓰면 i 가 항상 끝번호로 고정이 된다...
+    // but let 은 block 변수이기 때문에 i 가 반복을 돌 때까지의 i 가 된다.
+    // 그럼 const 는 왜 못 쓰냐? const 는 값을 변화할 수가 없다. 튜플 같은 거다.
+    // 그래서 쓰면 1번 버튼 말고 다른 버튼이 안 눌린다...
+
+  </script>
+</body>
+</html>
