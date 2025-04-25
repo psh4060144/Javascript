@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="container">
+    <button id="push">push</button>
+    <button id="pull">pull</button>
+    <input id="todo-input" type="text">
+    <ul id="todo-list"></ul>
+  </div>
+
+  <script>
+    // event handling
+    // 이벤트: 사용자가 동작하는 모든 것. 클릭, 키마 움직이기 등등...
+    // event handling: 특정 요소에 '이벤트'가 발생하면 실행할 코드를 정의하는 것
+    const push = document.querySelector('#push')
+    const pull = document.querySelector('#pull')
+    const todoList = document.querySelector('#todo-list')
+    const todoInput = document.querySelector('#todo-input')
+    const container = document.querySelector('#container')
+
+    // btn 요소에서 이벤트가 발생하는지 지켜보는 객체: eventListener
+    push.addEventListener('click', function () {
+      const liTag = document.createElement('li')
+      liTag.textContent = todoInput.value
+      todoList.appendChild(liTag)
+      todoInput.value = ''
+    })
+    // todoInput.addEventListener('keyup', function () {
+    //   const liTag = document.createElement('li')
+    //   liTag.textContent = todoInput.value
+    //   todoList.appendChild(liTag)
+    //   todoInput.value = ''
+    // })
+
+    // aEL 의 구조: addEventListener('event', eventhandler)
+    todoInput.addEventListener('keyup', function (event) {
+      if (event.keyCode === 13) {  // keyCode 가 13(enter) 라면~~~
+        if (todoInput.value) {  // 내용이 있다면~~~~~~~~~~
+          const liTag = document.createElement('li')
+          liTag.textContent = todoInput.value
+          todoList.appendChild(liTag)
+          todoInput.value = ''
+        }
+      }
+    })
+
+    // eventBubbling
+    container.addEventListener('click', function (event) {
+      const liTag = document.querySelector(li)
+      console.log(event.target)  // 최초 이벤트가 발생한 요소
+      console.log(event.currentTarget)  // 이벤트 처리중인 요소
+      todoList.removeChild(liTag)
+    })
+
+  </script>
+</body>
+</html>

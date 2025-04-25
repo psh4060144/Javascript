@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const students = [
+      { name: 'Alice', scores: [85, 90, 95] },
+      { name: 'Bella', scores: [50, 80, 80] },
+      { name: 'Caley', scores: [90, 55, 35] },
+      { name: 'Dave', scores: [100, 100, 100] },
+      { name: 'Eve', scores: [88, 90, 92] }
+    ]
+
+    // 아래에 코드 작성
+    
+    // 1. 
+    const makeAvgScores3 = function (students) {
+      const result = {}
+      students.forEach (function (student) {
+        let average = 0
+        for (score of student.scores) {
+          average += score
+        }
+        average /= 3
+        result[student.name] = average
+      })
+      return result
+    }
+
+    // 2.
+    // 각 요소에 대한 결과를 누적해야 할 때 쓰기 좋은 helper method: reduce.
+    // student.scores.reduce(함수, 누적값에 대한 초기값)
+    const makeAvgScores4 = function (students) {
+      const result = {}
+      students.forEach (function (student) {
+        const scoreSum = student.scores.reduce ( function (acc, score) {
+          return acc + score
+        }, 0)
+
+        result[student.name] = scoreSum / 3
+      })
+
+      return result
+    }
+
+    // 3.
+    // reduce 의 reduce 만들기.....
+    const makeAvgScores5 = function () {
+      return students.reduce (function (acc, student) {
+        const scoreSum = student.scores.reduce (function (acc, score) {
+          return acc + score
+        }, 0)
+        acc[student.name] = scoreSum / student.scores.length
+        return acc
+      }, {})
+    }
+
+
+    // 함수 호출
+    const result3 = makeAvgScores3(students)
+    const result4 = makeAvgScores4(students)
+    const result5 = makeAvgScores5(students)
+    console.log(result3)
+    console.log(result4)
+    console.log(result5)
+  </script>
+</body>
+
+</html>
