@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    console.log('A')
+    
+    // async
+    setTimeout(function () {
+      console.log('B')
+    }, 1000)  // setTimeout (function, time). time(ms) 이후에 function 을 실행.
+
+    console.log('C')
+
+    // 비동기 하는 이유:
+    // B 를 1초 기다렸다 실행해야 하는데, 비동기 안하면 그 밑의 모든 것들이 다 1초 뒤에 실행된다.
+    // 즉, 사용자 경험이 너무 안좋아진다. 그러니까, 경험을 좋게 하려고 비동기 처리를 해주는 것.
+
+  </script>
+</body>
+</html>
