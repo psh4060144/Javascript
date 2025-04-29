@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button>refresh</button>
+  <br>
+  <img src="" alt="">
+
+  <!-- axios 라이브러리를 이용해 요청을 보내고 받기 -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+    // button 이 눌리면 고양이 이미지가 바뀌게 하자.
+    // 1. 먼저 버튼을 선택.
+    const buttonTag = document.querySelector('button')
+    // 2. 버튼에게 event listener 를 달아 준다.
+    buttonTag.addEventListener('click', function () {
+      axios ({
+        method: 'get', 
+        url: 'https://api.thedogapi.com/v1/images/search/'
+      })
+      .then (function (response) {
+        console.log(response.data)
+        // 응답 안에 있는 url 을 이용해 img 태그의 그림 바꾸기
+        // 1. 먼저, img 태그와 url 을 선택해야 한다.
+        const imgTag = document.querySelector('img')
+        imgTag.src = response.data[0].url
+      })
+      .catch (function () {
+        console.log('오류 발생')
+      })
+    })
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>{{ person.username }}님의 프로필</h1>
+  <div> 
+    <div>
+      팔로잉 : <span id="followings-count">{{ person.followings.all|length }}</span> / 
+      팔로워 : <span id="followers-count">{{ person.followers.all|length }}</span>
+    </div>
+    {% if request.user != person %}
+      <div>
+        <form id="follow-form">
+          {% csrf_token %}
+          {% if request.user in person.followers.all %}
+            <input id="follow-button" type="submit" value="Unfollow">
+          {% else %}
+            <input id="follow-button" type="submit" value="Follow">
+          {% endif %}
+        </form>
+      </div>
+    {% endif %}
+  </div> 
+
+  <hr>
+  <div>
+    <h2>{{ person.username }}가 작성한 게시글</h2>
+    {% for article in person.article_set.all %}
+      <div>{{ article.title }}</div>
+    {% endfor %}
+    <hr>
+    <h2>{{ person.username }}가 작성한 댓글</h2> 
+    {% for comment in person.comment_set.all %} 
+      <div>{{ comment.content }}</div> 
+    {% endfor %}
+    
+    <hr>
+    <h2>{{ person.username }}가 좋아요한 게시글</h2> 
+    {% for article in person.like_articles.all %} 
+      <div>{{ article.title }}</div> 
+    {% endfor %}
+  </div>
+
+  <!-- axios CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+    // 조작하고자 하는 대상 form 태그가 누구인지 명확하게 id로 표기해준다.
+    const followForm = document.querySelector('#follow-form')
+
+    // csrf token 정보를 가져온다.
+    // name 이 carfmiddlewaretoken 인 어떤 요소를 가져와서, 그 요소의 value 만 뽑아서 쓴다.
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+    // 현재 프로필 주인의 팔로워 수를 보여주는 span tag
+    const followerCountSpan = document.querySelector("#followers-count")
+
+    // 현재 팔로우를 했는지 안했는지 보이는 버튼튼
+    const followBtn = document.querySelector('#follow-button')
+
+    // 이 followForm 에 submit 이벤트가 발생하면,
+    followForm.addEventListener('submit', function (event) {
+      // 내 서버는 follow POST 를 보낸다.
+      // 원래 form 은...
+          // action 에 지정된 위치로, method 에 지정된 방식으로,
+          // 자신이 가진 input 의 name 과 value 를 데이터로 하여 요청을 보내는 것이 역할이었다.
+      event.preventDefault()  // form 의 기존 이벤트를 먼저 막는다.
+      // action 에 적혀있던 경로로, method 에 적혀있던 방식으로 요청을 axios 로 보낸다.
+      axios({
+        url: "{% url 'accounts:follow' person.pk %}", 
+        method: 'POST', 
+        headers: {'X-CSRFToken': csrftoken}
+      })
+      .then((response) => {  // 성공했을 때
+        // follow 요청을 담당하는 URL 로 POST 요청이 가고,
+        // follow 담당 view 함수가 실행되어, 적절한 if 문을 통과한 후 실제 follow 기능이 실행되고,
+        // profile 로 redirect 되어 profile view 함수가 profile.html 파일을 반환.
+        // 반환된 html 파일의 내용을 console.log 출력한다.
+        console.log(response)
+        // but 응답 데이터가 HTML 이 아니라...
+        // 상대방의 팔로워 수, 그리고 나에게 보여질 follow 버튼에 어떤 값이 적힐지에 대한 결과를 JSON 으로 반환.
+        const followerCount = response.data.follower_count
+        followerCountSpan.textContent = followerCount
+
+        const isFollow = response.data.is_follow
+        followBtn.value = isFollow ? 'unfollow' : 'follow'
+      })
+      .catch((err) => {  // 실패했을 때
+        console.log(err)
+      })
+    })
+  </script>
+</body>
+</html>
